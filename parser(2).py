@@ -1,4 +1,3 @@
-
 import cyrtranslit
 
 # all words are in the Nominitive(Dictionary) case

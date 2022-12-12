@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        .center {
+  margin: auto;
+  width: 60%;
+  border: 3px solid #73AD21;
+  padding: 10px;
+}
+        
+        .row {
+          text-align: center;
+          margin-left:-5px;
+          margin-right:-5px;
+        }
+          
+        .column {
+          float: left;
+          width: 25%;
+          padding: 5px;
+        }
+        
+        /* Clearfix (clear floats) */
+        .row::after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+        
+        table {
+          border-spacing: 0;
+          width: 100%;
+          border: 1px solid rgb(218, 81, 81);
+        }
+        
+        th, td {
+          text-align: center;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #f2f2f2;
+        }
+        </style>
+</head>
+<body>
+
+<h1>Epic Russian Parser</h1>
+
+
+<div class="row">
+<div class="column">
+<h3>Nouns</h3>
+<table border="1">
+<tbody>
+<tr>
+<td><h4>Word</h4></td>
+<td><h4>Translation</h4></td>
+</tr>
+<tr>
+<td>muzhchina</td>
+<td>Man</td>
+</tr>
+
+<tr>
+<td>zhenshchina</td>
+<td>Women</td>
+</tr>
+
+<tr>
+<td>kot</td>
+<td>cat</td>
+</tr>
+
+<tr>
+<td>sobaka</td>
+<td>dog</td>
+</tr>
+
+<tr>
+<td>gorod</td>
+<td>City</td>
+</tr>
+
+<tr>
+<td>derevo</td>
+<td>tree</td>
+</tr>
+
+<tr>
+<td>mashina</td>
+</tr>
+
+<tr>
+<td>sestra</td>
+</tr>
+
+<tr>
+<td>brat</td>
+</tr>
+
+<tr>
+<td>stol</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<div class="column">
+
+<h3>Verbs</h3>
+
+<table border="1">
+<tbody>
+<tr>
+    <td><h4>Word</h4></td>
+    <td><h4>Translation</h4></td>
+</tr>
+
+<tr>
+<td>Znat</td>
+</tr>
+
+<tr>
+<td>Lyubit</td>
+</tr>
+<tr>
+<td>Rabotat </td>
+</tr>
+<tr>
+<td>Govorit</td>
+</tr>
+
+<tr>
+<td>Dumat</td>
+</tr>
+
+<tr>
+<td>gul'jat</td>
+</tr>
+
+<tr>
+<td>hotet</td>
+</tr>
+
+<tr>
+<td>Sde;at</td>
+</tr>
+
+<tr>
+<td>davat</td>
+</tr>
+
+<tr>
+<td>idti</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+<div class="column">
+
+
+<h3>Adjectives</h3>
+<table border="1">
+<tbody>
+<tr>
+    <td><h4>Word</h4></td>
+    <td><h4>Translation</h4></td>
+</tr>
+<tr>
+<td>malen'kij</td>
+</tr>
+
+<tr>
+<td>bol'shoy</td>
+</tr>
+
+<tr>
+<td>vysokij</td>
+</tr>
+
+<tr>
+<td>nizkij</td>
+</tr>
+
+<tr>
+<td>novyj</td>
+</tr>
+
+<tr>
+<td>staroy</td>
+</tr>
+
+<tr>
+<td>silyj</td>
+</tr>
+
+<tr>
+<td>krasivyj</td>
+</tr>
+
+<tr>
+<td>bogatyj</td>
+</tr>
+
+<tr>
+<td>zdorovyj</td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+<div class="column">
+
+<h3>Prepositions &amp; Conjunction</h3>
+
+<table border="1">
+<tbody>
+<tr>
+    <td><h4>Word</h4></td>
+    <td><h4>Translation</h4></td>
+</tr>
+<tr>
+<td>V</td>
+</tr>
+<tr>
+<td>na</td>
+</tr>
+
+<tr>
+<td>mezhdu</td>
+</tr>
+<tr>
+<td>iz</td>
+</tr>
+
+<tr>
+<td>s</td>
+</tr>
+
+<tr>
+<td>ot</td>
+</tr>
+
+</div>
+</div>
+
+</tbody>
+</table>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="center">
+<h2>Enter a Russian Text, and I will tell you if it is a valid text</h2>
+<input type="text" id="test-input"/>
+<button id="submit-button" type="submit" py-click="sentenceValid()">OK</button>
+<br>
+<br>
+<div id="test-output"></div>
+
+<div id="error1"></div>
+<div id="error2"></div>
+
+<div id="nouns"></div>
+<div id="verbs"></div>
+<div id="adj"></div>
+<div id="prop"></div>
+<div id="conj"></div>
+
+
+
+
+<py-script>
+    la = ("malen'kij", "bol'shoy", "vysokij", "nizkij", "novyj", "staroy", "silyj", "krasivyj", "bogatyj", "zdorovyj")
+    ln = ("muzhchina", "zhenshchina", "kot", "sobaka", "gorod", "derevo", "mashina", "sestra", "brat", "stol")
+    lv = ("znat'", "lyubit'", "rabotat'", "govorit'", "dumat'", "gul'jat'", "hotet'", "sdelat'", "davat'", "idti")
+    lp = ("v", "na", "mezhdu", "iz", "s", "ot")
+    lc = ("i")
+    run = True
+
+    def is_valid_sentence(phrase):
+        phrase = phrase.split()
+        adj = 0
+        noun = 0
+        verb = 0
+        preposition = 0
+        conjunction = 0
+
+        step = 0
+
+        valid = False
+
+        if phrase == []:
+            valid = False
+
+        print(phrase)
+        for word in phrase:
+            while step < len(phrase): 
+                if phrase[step] in ln:
+                    noun += 1
+                elif phrase[step] in lv:
+                    verb += 1
+                elif phrase[step] in la:
+                    adj += 1
+                elif phrase[step] in lp:
+                    preposition += 1
+                elif phrase[step] in lc:
+                    conjunction += 1
+                step += 1
+            
+            if noun >= 1 and verb >= 1:
+                valid = True
+            elif noun >= 1 and adj >= 1:
+                valid = True
+            elif verb >= 1 and adj >= 1:
+                valid = True
+            elif noun >= 1 and adj >= 1 and verb >= 1:
+                valid = True
+            else:
+                valid = False
+                break
+
+            if word in lc:
+                try:
+                    if phrase[phrase.index(word) + 1] in ln and phrase[phrase.index(word) - 1] in ln:
+                            valid = True
+                    elif phrase[phrase.index(word) + 1] in lv and phrase[phrase.index(word) - 1] in lv:
+                            valid = True
+                    elif phrase[phrase.index(word) + 1] in la and phrase[phrase.index(word) - 1] in la:
+                            valid = True
+                    else:
+                        valid = False
+                        break               
+                except Exception:
+                    pyscript.write('error1', "A conjunction must be follwed be either a noun, verb, or adjective. You can't string conjunctions")
+
+                    valid = False
+                    break
+
+            if word in lp:
+                try:
+                    if phrase[phrase.index(word) + 1] in ln or phrase[phrase.index(word) + 1] in lv or phrase[phrase.index(word) + 1] in la:
+                        valid = True
+                        break
+                    else:
+                        valid = False
+                        break
+                except Exception:
+                    pyscript.write('error2', "A preposition must be follwed be either a noun, verb, or adjective.")
+                    valid = False
+                    break
+        pyscript.write('nouns', "Number of Nouns:\t"+str(noun))
+        pyscript.write('verbs', "Number of Verbs:\t"+str(verb))
+        pyscript.write('adj', "Number of Adjectives:\t"+str(adj))
+        pyscript.write('prop', "Number of Prepositions:\t"+str(preposition))
+        pyscript.write('conj', "Number of Conjuctions:\t"+str(conjunction))
+
+
+
+
+
+        return valid
+
+    def sentenceValid():
+        phrase = Element('test-input').element.value
+        if is_valid_sentence(phrase) == True:
+            pyscript.write('test-output', "This is a valid sentence.")
+        elif is_valid_sentence(phrase) == False:
+            pyscript.write('test-output', "This is not a valid sentence.")
+    </py-script>
+</div>
+</body>
+</html>
+

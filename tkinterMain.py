@@ -8,8 +8,8 @@ root.geometry("900x700")
 
 def printInput():
     inp = inputtxt.get(1.0, "end-1c")
-    sentenceStrip(inp)
-    lbl.config(text = "Provided Input: "+inp)
+    result = sentenceValid(inp)
+    lbl.config(text = result)
 
 
 label=Label(root, text="Epic Russian Parser", font='Arial 17 bold')

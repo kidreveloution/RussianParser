@@ -1,47 +1,16 @@
-import cyrtranslit
 
 # all words are in the Nominitive(Dictionary) case
 
-adjectives = ("маленький", "большой", "высокий", "низкий", "новый", "старый", "сильный", "красивый", "богатый", "здоровый")
-
-noun = ("мужчина", "женщина", "кот", "собака", "город", "дерево", "машина", "сестра", "брат", "стол")
-
-verb = ("знать", "любить", "работать", "говорить", "думать", "гулять", "хотеть", "сделать", "давать", "идти")
-
-prepositions = ("в", "на", "между", "из", "с", "от")
-
-conjunctions = ("и")
-
-la = ()
-ln = ()
-lv = ()
-lp = ()
-lc = ()
-
-for a in adjectives:
-    la += (cyrtranslit.to_latin(a, "ru"),)
-
-for n in noun:
-    ln += (cyrtranslit.to_latin(n, "ru"),)
-
-for v in verb:
-    lv += (cyrtranslit.to_latin(v, "ru"),)
-
-for p in prepositions:
-    lp += (cyrtranslit.to_latin(p, "ru"),)
-
-for c in conjunctions:
-    lc += (cyrtranslit.to_latin(c, "ru"),)
-
-print(la)
-print(ln)
-print(lv)
-print(lp)
-print(lc)
+la = ("malen'kij", "bol'shoy", "vysokij", "nizkij", "novyj", "staroy", "silyj", "krasivyj", "bogatyj", "zdorovyj")
+ln = ("muzhchina", "zhenshchina", "kot", "sobaka", "gorod", "derevo", "mashina", "sestra", "brat", "stol")
+lv = ("znat'", "lyubit'", "rabotat'", "govorit'", "dumat'", "gul'jat'", "hotet'", "sdelat'", "davat'", "idti")
+lp = ("v", "na", "mezhdu", "iz", "s", "ot")
+lc = ("i")
 
 run = True
 
 def is_valid_sentence(phrase):
+
     phrase = phrase.split()
     # if a phrase has a preposition check if the prepositions comes before a noun or verb
     adj = 0
@@ -90,14 +59,16 @@ def is_valid_sentence(phrase):
         # check if the phrase has a conjunction 
         if word in lc:
             try:
-                #check to see if the following amd previous words are of the same type ex: noun conjunction noun or verb conjunction verb
-                if phrase[phrase.index(word) + 1] in ln or phrase[phrase.index(word) + 1] in lv or phrase[phrase.index(word) + 1] in la:
-                    if phrase[phrase.index(word) - 1] in ln or phrase[phrase.index(word) - 1] in lv or phrase[phrase.index(word) - 1] in la:
+                # check to see if the following and previous words are of the same type ex: noun conjunction noun or verb conjunction verb
+                if phrase[phrase.index(word) + 1] in ln and phrase[phrase.index(word) - 1] in ln:
                         valid = True
-                        break
-                    else:
-                        valid = False
-                        break               
+                elif phrase[phrase.index(word) + 1] in lv and phrase[phrase.index(word) - 1] in lv:
+                        valid = True
+                elif phrase[phrase.index(word) + 1] in la and phrase[phrase.index(word) - 1] in la:
+                        valid = True
+                else:
+                    valid = False
+                    break               
             except Exception:
                 print("A conjunction must be follwed be either a noun, verb, or adjective. You can't string conjunctions")
                 valid = False
@@ -107,7 +78,7 @@ def is_valid_sentence(phrase):
 
         # check if the phrase has a preposition and if it does check if the preposition comes before a noun or verb
         if word in lp:
-            #check to see if the following word is a noun, or verb
+            # check to see if the following word is a noun, or verb
             try:
                 if phrase[phrase.index(word) + 1] in ln or phrase[phrase.index(word) + 1] in lv or phrase[phrase.index(word) + 1] in la:
                     valid = True
@@ -143,13 +114,12 @@ while run:
         break
 """
 
-def main():
-    phrase = str(input("Enter a Russian phrase and I'll tell you if it's a valid sentence: "))
+def sentenceValid(phrase):
     if is_valid_sentence(phrase) == True:
         print("This is a valid sentence.")
     elif is_valid_sentence(phrase) == False:
         print("This is not a valid sentence.")
 
 if __name__ == "__main__":
-    main()
+    sentenceValid()
     
